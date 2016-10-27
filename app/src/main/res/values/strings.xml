@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Trip Logger</string>
+    <string name="trip_title_hint">Enter a title for the trip</string>
+    <string name="trip_title_label">Title</string>
+    <string name="trip_details_label">Details</string>
+    <string name="trip_finished_label">Finished</string>
+    <string name="date_picker_title">Date of trip:</string>
+    <string name="new_trip">New Trip</string>
+    <string name="show_subtitle">Show subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle_format">%1$s!</string>
+    <string name="trip_pic_text">Choose picture</string>
+    <string name="trip_share_text">Share trip</string>
+    <string name="trip_share">%1$s!
+    The trip was %2$s. %3$s, and %4$s
+    </string>
+    <string name="trip_share_complete">Trip successfully shared!</string>
+    <string name="trip_share_uncomplete">The trip failed to be shared</string>
+    <string name="trip_share_no_pic">There was no picture selected</string>
+    <string name="trip_share_pic">The selected picture is %s</string>
+    <string name="trip_share_subject">TripLogger Trip Report</string>
+    <string name="share_trip">Share trip</string>
+    <string name="trip_comment_hint">Enter a comment about the trip</string>
+
+    <string-array name="trip_array">
+        <item>Work</item>
+        <item>Personal</item>
+        <item>Commute</item>
+    </string-array>
+</resources>
