@@ -10,6 +10,12 @@ public class Trip
     private Date tDate;
     private boolean tFinish;
     private String tPic;
+    private String tType;
+    private String tDest;
+    private String tDuration;
+    private String tComment;
+    private String tLat;
+    private String tLon;
 
     public Trip()
     {
@@ -52,11 +58,6 @@ public class Trip
         return tFinish;
     }
 
-    public void settFinish(boolean finished)
-    {
-        tFinish = finished;
-    }
-
     public String gettPic()
     {
         return tPic;
@@ -70,5 +71,65 @@ public class Trip
     public String getPhotoFileName()
     {
         return "IMG_" + gettId().toString() + ".jpg";
+    }
+
+    public String gettType()
+    {
+        return tType;
+    }
+
+    public void settType(String type)
+    {
+        tType = type;
+    }
+
+    public String gettDestination()
+    {
+        return tDest;
+    }
+
+    public void settDestination(String dest)
+    {
+        tDest = dest;
+    }
+
+    public String gettDuration()
+    {
+        return tDuration;
+    }
+
+    public void settDuration(String duration)
+    {
+        tDuration = duration;
+    }
+
+    public String gettComment()
+    {
+        return tComment;
+    }
+
+    public void settComment(String comment)
+    {
+        tComment = comment;
+    }
+
+    public String gettLat()
+    {
+        return tLat;
+    }
+
+    public void settLat(String lat)
+    {
+        tLat = lat;
+    }
+
+    public String gettLon()
+    {
+        return tLon;
+    }
+
+    public void settLon(String lon)
+    {
+        tLon = lon;
     }
 }

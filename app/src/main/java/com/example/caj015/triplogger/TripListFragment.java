@@ -4,16 +4,12 @@ package com.example.caj015.triplogger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,32 +18,53 @@ public class TripListFragment extends Fragment
 {
     private RecyclerView tTripRecyclerView;
     private TripAdapter tAdapter;
-    private boolean tSubtitleVisible;
-    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+    private Button oOptButton;
+    private Button tTripButton;
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
+    }*/
 
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_trip_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_trip_list, container, false);
 
-        tTripRecyclerView = (RecyclerView) view.findViewById(R.id.trip_recycler_view);
+        tTripRecyclerView = (RecyclerView) v.findViewById(R.id.trip_recycler_view);
         tTripRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if (savedInstanceState != null)
+        oOptButton = (Button) v.findViewById(R.id.menu_options);
+        oOptButton.setOnClickListener(new View.OnClickListener()
         {
-            tSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
-        }
+            public void onClick(View v)
+            {
+                //Log.i("Options", "Yea Options");
+                Intent intent = new Intent(getActivity(), OptActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tTripButton = (Button) v.findViewById(R.id.menu_item_new_trip);
+        tTripButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Trip trip = new Trip();
+                TripLab.get(getActivity()).addTrip(trip);
+                Intent tIntent = TripPagerActivity.newIntent(getActivity(), trip.gettId());
+                startActivity(tIntent);
+            }
+        });
+
+
+
 
         updateUI();
 
-        return view;
+        return v;
     }
 
     @Override
@@ -61,24 +78,14 @@ public class TripListFragment extends Fragment
     public void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, tSubtitleVisible);
     }
 
-    @Override
+    /*
+   @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_trip_list, menu);
-
-        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
-        if (tSubtitleVisible)
-        {
-            subtitleItem.setTitle(R.string.hide_subtitle);
-        }
-        else
-        {
-            subtitleItem.setTitle(R.string.show_subtitle);
-        }
+        super.onCreateOptionsMenu(layout, inflater);
+        inflater.inflate(R.layout.fragment_trip_list, menu);
     }
 
     @Override
@@ -89,33 +96,24 @@ public class TripListFragment extends Fragment
             case R.id.menu_item_new_trip:
                 Trip trip = new Trip();
                 TripLab.get(getActivity()).addTrip(trip);
-                Intent intent = TripPagerActivity.newIntent(getActivity(), trip.gettId());
-                startActivity(intent);
-                return true;
-            case R.id.menu_item_show_subtitle:
-                tSubtitleVisible = !tSubtitleVisible;
-                getActivity().invalidateOptionsMenu();
-                updateSubtitle();
+                Intent tIntent = TripPagerActivity.newIntent(getActivity(), trip.gettId());
+                startActivity(tIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
 
-    private void updateSubtitle()
-    {
-        TripLab tripLab = TripLab.get(getActivity());
-        int tripCount = tripLab.gettTrips().size();
-        String subtitle = getString(R.string.subtitle_format, tripCount);
 
-        if (!tSubtitleVisible)
+
+        /*oOptButton = (Button) v.findViewById(R.id.trip_pic);
+        oOptButton.setOnClickListener(new View.OnClickListener()
         {
-            subtitle = null;
-        }
-
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().setSubtitle(subtitle);
-    }
+            public void onClick(View v)
+            {
+                startActivity();
+            }
+        });
+    }*/
 
     private void updateUI()
     {
@@ -132,15 +130,13 @@ public class TripListFragment extends Fragment
             tAdapter.setTrips(trips);
             tAdapter.notifyDataSetChanged();
         }
-
-        updateSubtitle();
     }
 
     private class TripHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private TextView tTitleTextView;
         private TextView tDateTextView;
-        private CheckBox tFinishedCheckBox;
+        //private CheckBox tFinishedCheckBox;
         private Trip tTrip;
 
         public TripHolder (View itemView)
@@ -150,7 +146,7 @@ public class TripListFragment extends Fragment
 
             tTitleTextView = (TextView) itemView.findViewById(R.id.list_item_trip_title_text_view);
             tDateTextView = (TextView) itemView.findViewById(R.id.list_item_trip_date_text_view);
-            tFinishedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_trip_finished_check_box);
+            //tFinishedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_trip_finished_check_box);
         }
 
         public void bindTrip(Trip trip)
@@ -158,7 +154,7 @@ public class TripListFragment extends Fragment
             tTrip = trip;
             tTitleTextView.setText(tTrip.gettTitle());
             tDateTextView.setText(tTrip.gettDate().toString());
-            tFinishedCheckBox.setChecked(tTrip.istFinish());
+            //tFinishedCheckBox.setChecked(tTrip.istFinish());
         }
 
         @Override

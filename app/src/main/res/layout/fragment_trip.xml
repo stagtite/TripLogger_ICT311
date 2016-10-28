@@ -17,29 +17,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:hint="@string/trip_comment_hint"/>
 
     <Button android:id="@+id/trip_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0" />
     
     <Button android:id="@+id/trip_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_weight="0"
         android:text="@string/trip_pic_text"/>
 
     <Button android:id="@+id/trip_share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="@string/trip_share_text"/>
 
     <CheckBox android:id="@+id/trip_finished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="@string/trip_finished_label"/>
 
 </LinearLayout>

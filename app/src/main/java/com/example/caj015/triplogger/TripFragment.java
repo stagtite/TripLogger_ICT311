@@ -1,12 +1,10 @@
 package com.example.caj015.triplogger;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -21,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +27,7 @@ import android.widget.Spinner;
 import java.io.File;
 import java.util.Date;
 import java.util.UUID;
+
 
 public class TripFragment extends Fragment
 {
@@ -45,7 +42,6 @@ public class TripFragment extends Fragment
     private File tPhotoFile;
     private EditText tTitleField;
     private Button tDateButton;
-    private CheckBox tFinishedCheckBox;
     private Button tShareButton;
     private Button tPicButton;
     private ImageButton tPhotoButton;
@@ -199,6 +195,18 @@ public class TripFragment extends Fragment
         tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         tTripSpinner.setAdapter(tAdapter);
+
+        //Delete
+        //tDeleteButton = (Button) v.findViewById(R.id.trip_delete);
+        //tDeleteButton.setOnClickListener(new View.OnClickListener()
+        //{
+        //    @Override
+        //    public void onClick(View v)
+        //    {
+        //        TripLab.get(getContext()).deleteTrip(tTrip);
+        //        finish();
+        //    }
+        //});
 
         return v;
     }

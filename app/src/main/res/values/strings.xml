@@ -5,9 +5,8 @@
     <string name="trip_details_label">Details</string>
     <string name="trip_finished_label">Finished</string>
     <string name="date_picker_title">Date of trip:</string>
-    <string name="new_trip">New Trip</string>
-    <string name="show_subtitle">Show subtitle</string>
-    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="new_trip">Log</string>
+    <string name="options_menu">Settings</string>
     <string name="subtitle_format">%1$s!</string>
     <string name="trip_pic_text">Choose picture</string>
     <string name="trip_share_text">Share trip</string>
@@ -27,4 +26,27 @@
         <item>Personal</item>
         <item>Commute</item>
     </string-array>
+
+    <string name="opt_title_label">Options:</string>
+
+    <string name="opt_name_label">Name: </string>
+    <string name="opt_name_hint">Enter your name</string>
+
+    <string name="opt_id_label">ID: </string>
+    <string name="opt_id_hint">Enter your ID</string>
+
+    <string name="opt_email_label">Email: </string>
+    <string name="opt_email_hint">Enter your email</string>
+
+    <string name="opt_comment_label">Comment: </string>
+    <string name="opt_comment_hint">Enter a comment here</string>
+
+    <string name="opt_gender_label">Gender: </string>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="opt_fin_text">Done</string>
 </resources>

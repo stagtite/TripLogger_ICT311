@@ -21,14 +21,10 @@ public class TripCursorWrapper extends CursorWrapper
         String uuidString = getString(getColumnIndex(TripDbSchema.TripTable.Cols.UUID));
         String title = getString(getColumnIndex(TripDbSchema.TripTable.Cols.TITLE));
         long date = getLong(getColumnIndex(TripDbSchema.TripTable.Cols.DATE));
-        int isFinished = getInt(getColumnIndex(TripDbSchema.TripTable.Cols.FINISHED));
-        String pic = getString(getColumnIndex(TripDbSchema.TripTable.Cols.PIC));
 
         Trip trip = new Trip(UUID.fromString(uuidString));
         trip.settTitle(title);
         trip.settDate(new Date(date));
-        trip.settFinish(isFinished != 0);
-        trip.settPic(pic);
 
         return trip;
     }
