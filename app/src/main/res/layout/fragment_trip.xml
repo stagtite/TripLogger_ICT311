@@ -37,20 +37,20 @@
         android:hint="@string/trip_comment_hint"/>
 
 
-        <Button android:id="@+id/trip_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_weight="0" />
+    <Button android:id="@+id/trip_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0" />
 
-        <Button android:id="@+id/trip_location"
-            android:text="@string/trip_location_label"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_weight="0"/>
+    <Button android:id="@+id/trip_location"
+        android:text="@string/trip_location_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0"/>
 
     <LinearLayout
         android:orientation="horizontal"
