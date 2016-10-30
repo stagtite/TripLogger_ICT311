@@ -21,7 +21,7 @@ public class CursorWrappers extends android.database.CursorWrapper
     {
         String uuidString = getString(getColumnIndex(TripDbSchema.TripTable.Cols.UUID));
         String title = getString(getColumnIndex(TripDbSchema.TripTable.Cols.TITLE));
-        long date = getLong(getColumnIndex(TripDbSchema.TripTable.Cols.DATE));
+        String date = getString(getColumnIndex(TripDbSchema.TripTable.Cols.DATE));
         Integer type = getInt(getColumnIndex(TripDbSchema.TripTable.Cols.TYPE));
         String dest = getString(getColumnIndex(TripDbSchema.TripTable.Cols.DESTINATION));
         String duration = getString(getColumnIndex(TripDbSchema.TripTable.Cols.DURATION));
@@ -32,7 +32,7 @@ public class CursorWrappers extends android.database.CursorWrapper
 
         Trip trip = new Trip(UUID.fromString(uuidString));
         trip.settTitle(title);
-        trip.settDate(new Date(date));
+        trip.settDate(date);
         trip.settType(type);
         trip.settDestination(dest);
         trip.settDuration(duration);

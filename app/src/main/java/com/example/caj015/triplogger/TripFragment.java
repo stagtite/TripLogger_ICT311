@@ -4,17 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +46,7 @@ public class TripFragment extends Fragment
     private EditText tDestField;
     private EditText tDurationField;
     private EditText tCommentField;
-    private Button tDateButton;
+    private EditText tDateField;
     private Button tDeleteButton;
     private Button tSaveButton;
     private Button tLocationField;
@@ -118,17 +115,25 @@ public class TripFragment extends Fragment
         });
 
         //Date Button
-        tDateButton = (Button) v.findViewById(R.id.trip_date);
-        updateDate();
-        tDateButton.setOnClickListener(new View.OnClickListener()
+        tDateField = (EditText) v.findViewById(R.id.trip_date);
+        tDateField.setText(tTrip.gettDate());
+        tDateField.addTextChangedListener(new TextWatcher()
         {
             @Override
-            public void onClick(View v)
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
             {
-                FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(tTrip.gettDate());
-                dialog.setTargetFragment(TripFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);
+                // This space intentionally left blank
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                tTrip.settDate(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                // This space intentionally left blank
             }
         });
 
@@ -320,7 +325,7 @@ public class TripFragment extends Fragment
     //Updates the date button to display the selected date
     private void updateDate()
     {
-        tDateButton.setText(tTrip.gettDate().toString());
+        tDateField.setText(tTrip.gettDate().toString());
     }
 
     //Shows selected picture
@@ -344,13 +349,6 @@ public class TripFragment extends Fragment
         if (resultCode != Activity.RESULT_OK)
         {
             return;
-        }
-
-        if (requestCode == REQUEST_DATE)
-        {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            tTrip.settDate(date);
-            updateDate();
         }
         else if (requestCode == REQUEST_PHOTO)
         {

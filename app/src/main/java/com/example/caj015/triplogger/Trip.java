@@ -7,7 +7,7 @@ public class Trip
 {
     private UUID tId;
     private String tTitle;
-    private Date tDate;
+    private String tDate;
     private boolean tFinish;
     private String tPic;
     private Integer tType;
@@ -25,7 +25,7 @@ public class Trip
     public Trip(UUID id)
     {
         tId = id;
-        tDate = new Date();
+        //tDate = new Date();
     }
 
     public UUID gettId()
@@ -43,12 +43,12 @@ public class Trip
         tTitle = title;
     }
 
-    public Date gettDate()
+    public String gettDate()
     {
         return tDate;
     }
 
-    public void settDate(Date date)
+    public void settDate(String date)
     {
         tDate = date;
     }

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class TripListFragment extends Fragment
@@ -136,6 +138,7 @@ public class TripListFragment extends Fragment
         private TextView tTitleTextView;
         private TextView tDateTextView;
         //private CheckBox tFinishedCheckBox;
+        private TextView tDestTextView;
         private Trip tTrip;
 
         public TripHolder (View itemView)
@@ -145,6 +148,7 @@ public class TripListFragment extends Fragment
 
             tTitleTextView = (TextView) itemView.findViewById(R.id.list_item_trip_title_text_view);
             tDateTextView = (TextView) itemView.findViewById(R.id.list_item_trip_date_text_view);
+            tDestTextView = (TextView) itemView.findViewById(R.id.list_item_trip_dest_text_view);
             //tFinishedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_trip_finished_check_box);
         }
 
@@ -152,7 +156,8 @@ public class TripListFragment extends Fragment
         {
             tTrip = trip;
             tTitleTextView.setText(tTrip.gettTitle());
-            tDateTextView.setText(tTrip.gettDate().toString());
+            tDateTextView.setText(tTrip.gettDate());
+            tDestTextView.setText(tTrip.gettDestination());
         }
 
         @Override

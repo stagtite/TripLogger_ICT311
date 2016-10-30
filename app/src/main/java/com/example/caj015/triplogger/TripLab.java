@@ -204,7 +204,7 @@ public class TripLab
         ContentValues values = new ContentValues();
         values.put(TripDbSchema.TripTable.Cols.UUID, trip.gettId().toString());
         values.put(TripDbSchema.TripTable.Cols.TITLE, trip.gettTitle());
-        values.put(TripDbSchema.TripTable.Cols.DATE, trip.gettDate().toString());
+        values.put(TripDbSchema.TripTable.Cols.DATE, trip.gettDate());
         values.put(TripDbSchema.TripTable.Cols.TYPE, trip.gettType().toString());
         values.put(TripDbSchema.TripTable.Cols.DESTINATION, trip.gettDestination());
         values.put(TripDbSchema.TripTable.Cols.DURATION, trip.gettDuration());

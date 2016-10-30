@@ -3,20 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp">
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item_trip_finished_check_box"
-        android:layout_alignParentRight="true"
-        android:padding="4dp"/>
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_trip_title_text_view"
-        android:layout_toLeftOf="@id/list_item_trip_finished_check_box"
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Trip title"/>
@@ -25,9 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_trip_date_text_view"
-        android:layout_toLeftOf="@id/list_item_trip_finished_check_box"
         android:layout_below="@id/list_item_trip_title_text_view"
         android:padding="4dp"
+        android:layout_marginTop="3dp"
         tools:text="Trip date"/>
+
+    <TextView
+        android:id="@+id/list_item_trip_dest_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:layout_marginTop="61dp"
+        tools:text="Trip Comment"/>
 
 </RelativeLayout>
