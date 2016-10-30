@@ -7,11 +7,11 @@ import java.util.UUID;
 public class Opt
 {
     private UUID optionId;
-    private String oName;
-    private String oId;
-    private String oGender;
-    private String oEmail;
-    private String oComment;
+    private String oName = "Cody Johnson";
+    private String oId = "1077261";
+    private String oGender = "Male";
+    private String oEmail = "example@domain.com";
+    private String oComment = "I can't believe it";
 
     public Opt()
     {
@@ -23,7 +23,7 @@ public class Opt
         optionId = id;
     }
 
-    public UUID getOptSet()
+    public UUID getoOpt()
     {
         return optionId;
     }

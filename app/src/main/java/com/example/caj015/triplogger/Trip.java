@@ -10,7 +10,7 @@ public class Trip
     private Date tDate;
     private boolean tFinish;
     private String tPic;
-    private String tType;
+    private Integer tType;
     private String tDest;
     private String tDuration;
     private String tComment;
@@ -73,12 +73,12 @@ public class Trip
         return "IMG_" + gettId().toString() + ".jpg";
     }
 
-    public String gettType()
+    public Integer gettType()
     {
         return tType;
     }
 
-    public void settType(String type)
+    public void settType(Integer type)
     {
         tType = type;
     }

@@ -1,6 +1,5 @@
 package com.example.caj015.triplogger;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 public class OptFragment extends Fragment implements AdapterView.OnItemSelectedListener
 {
-    private static final String ARG_OPT_ID = "trip_id";
+    private static final String ARG_OPT_ID = "opt_id";
 
     private Opt oOpt;
 
@@ -35,21 +34,23 @@ public class OptFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     public static OptFragment newInstance(UUID oId)
     {
-        Bundle args = new Bundle();
+        return new OptFragment();
+        /*Bundle args = new Bundle();
         args.putSerializable(ARG_OPT_ID, oId);
 
         OptFragment fragment = new OptFragment();
         fragment.setArguments(args);
-        return fragment;
+        return fragment;*/
     }
 
     //onCreate Setup
-    @Override
+    @Override //CRASHES BECAUSE I'M TRYING TO PASS IT A UUID THAT IS BLANK, NEEDS TO BE CALLED ON NEWINSTANCE
     public void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
-        UUID optId = (UUID) getArguments().getSerializable(ARG_OPT_ID);
-        oOpt = TripLab.get(getActivity()).getoOptions(optId);
+        //UUID optId = oOpt.getoOpt(); //(UUID) getArguments().getSerializable(ARG_OPT_ID);
+        //oOpt = TripLab.get(getActivity()).getoOpt(optId);
     }
 
     @Override

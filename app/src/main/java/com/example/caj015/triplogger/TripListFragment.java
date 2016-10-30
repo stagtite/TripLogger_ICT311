@@ -41,6 +41,8 @@ public class TripListFragment extends Fragment
         {
             public void onClick(View v)
             {
+                //Opt opt = new Opt();
+                //TripLab.get(getActivity()).addOpt(opt);
                 //Log.i("Options", "Yea Options");
                 Intent intent = new Intent(getActivity(), OptActivity.class);
                 startActivity(intent);
@@ -58,9 +60,6 @@ public class TripListFragment extends Fragment
                 startActivity(tIntent);
             }
         });
-
-
-
 
         updateUI();
 
@@ -154,7 +153,6 @@ public class TripListFragment extends Fragment
             tTrip = trip;
             tTitleTextView.setText(tTrip.gettTitle());
             tDateTextView.setText(tTrip.gettDate().toString());
-            //tFinishedCheckBox.setChecked(tTrip.istFinish());
         }
 
         @Override

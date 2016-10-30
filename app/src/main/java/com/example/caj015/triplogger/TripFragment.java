@@ -1,6 +1,7 @@
 package com.example.caj015.triplogger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -31,6 +32,7 @@ import java.util.UUID;
 
 public class TripFragment extends Fragment
 {
+    //Variables
     private static final String ARG_TRIP_ID = "trip_id";
     private static final String DIALOG_DATE = "DialogDate";
 
@@ -40,14 +42,23 @@ public class TripFragment extends Fragment
 
     private Trip tTrip;
     private File tPhotoFile;
+    private String tDest;
+    private String tDuration;
+    private String tComment;
     private EditText tTitleField;
+    private EditText tDestField;
+    private EditText tDurationField;
+    private EditText tCommentField;
     private Button tDateButton;
-    private Button tShareButton;
-    private Button tPicButton;
+    private Button tDeleteButton;
+    private Button tSaveButton;
+    private Button tLocationField;
     private ImageButton tPhotoButton;
     private ImageView tPhotoView;
-    private Spinner tTripSpinner;
+    private Spinner tTypeSpinner;
+    private Context context;
 
+    //Creates a new trip fragment with a unique ID
     public static TripFragment newInstance(UUID tripId)
     {
         Bundle args = new Bundle();
@@ -58,7 +69,7 @@ public class TripFragment extends Fragment
         return fragment;
     }
 
-    //onCreate Setup
+    //Sets up access to Trip
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -76,10 +87,11 @@ public class TripFragment extends Fragment
         TripLab.get(getActivity()).updateTrip(tTrip);
     }
 
-    //View setup
+    //View setup - Adds listeners to all the boxes on the Trip screen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        //Adds everything to the view
         View v = inflater.inflate(R.layout.fragment_trip, container, false);
 
         //Name of the Trip
@@ -120,28 +132,115 @@ public class TripFragment extends Fragment
             }
         });
 
-        //This lets us share the trip in a message
-        tShareButton = (Button) v.findViewById(R.id.trip_share);
-        tShareButton.setOnClickListener(new View.OnClickListener()
+        //Type of trip - IDK HOW TO MAKE IT SAVE
+        //SPINNER - Adapted from Android API: https://developer.android.com/guide/topics/ui/controls/spinner.html
+
+        tTypeSpinner = (Spinner) v.findViewById(R.id.trip_type);
+
+        ArrayAdapter<CharSequence> tAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.trip_array, android.R.layout.simple_spinner_item);
+        tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        tTypeSpinner.setAdapter(tAdapter);
+        tTypeSpinner.setSelection(tTrip.gettType());
+        //tTypeSpinner.setOnItemSelectedListener(tTrip.settType());
+
+        //Destination of the trip
+        tDestField = (EditText) v.findViewById(R.id.trip_destination);
+        tDestField.setText(tTrip.gettDestination());
+        tDestField.addTextChangedListener(new TextWatcher()
         {
-            public void onClick(View v)
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
             {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_TEXT, getTripShare());
-                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.trip_share_subject));
-                i = Intent.createChooser(i, getString(R.string.share_trip));
-                startActivity(i);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                tTrip.settDestination(s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
             }
         });
 
+        //Location of the trip
+        //Destination of the trip
+        tLocationField = (Button) v.findViewById(R.id.trip_location);
+        tLocationField.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Opt opt = new Opt();
+                //TripLab.get(getActivity()).addOpt(opt);
+                //Log.i("Location", "Yea Locator");
+                Intent intent = new Intent(getActivity(), LocatorActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //Duration of the trip
+        tDurationField = (EditText) v.findViewById(R.id.trip_duration);
+        tDurationField.setText(tTrip.gettDuration());
+        tDurationField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                tTrip.settDuration(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
+
+        //Comment on the trip
+        tCommentField = (EditText) v.findViewById(R.id.trip_comment);
+        tCommentField.setText(tTrip.gettComment());
+        tCommentField.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                tTrip.settComment(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
+
+        /*
         //This lets us pick a contact
         final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 
         //TESTS AGAINST NO-CONTACT PROTECTION
-        //pickContact.addCategory(Intent.CATEGORY_HOME);
+        pickContact.addCategory(Intent.CATEGORY_HOME);
 
-        //Back to normal code
+        //Pic
         tPicButton = (Button) v.findViewById(R.id.trip_pic);
         tPicButton.setOnClickListener(new View.OnClickListener()
         {
@@ -157,15 +256,20 @@ public class TripFragment extends Fragment
         }
 
         //Stops no-contacts error - Disables contact button
-        PackageManager packageManager = getActivity().getPackageManager();
+
         if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null)
         {
             tPicButton.setEnabled(false);
         }
+        */
+
+        //PHOTO BUTTON
+        PackageManager packageManager = getActivity().getPackageManager();
 
         tPhotoButton = (ImageButton) v.findViewById(R.id.trip_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        //Enables photo button
         boolean canTakePhoto = tPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
         tPhotoButton.setEnabled(canTakePhoto);
 
@@ -187,65 +291,39 @@ public class TripFragment extends Fragment
         tPhotoView = (ImageView) v.findViewById(R.id.trip_photo);
         updatePhotoView();
 
-        //Spinner - Adapted from Android API: https://developer.android.com/guide/topics/ui/controls/spinner.html
-        //
-        tTripSpinner = (Spinner) v.findViewById(R.id.trip_type);
+        //DELETE BUTTON
+        tDeleteButton = (Button) v.findViewById(R.id.trip_delete);
+        tDeleteButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                TripLab.get(getContext()).deleteTrip(tTrip);
+                //ADD FINISH FUNCTION FINISH();
+                getActivity().finish();
+            }
+        });
 
-        ArrayAdapter<CharSequence> tAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.trip_array, android.R.layout.simple_spinner_item);
-        tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        tTripSpinner.setAdapter(tAdapter);
-
-        //Delete
-        //tDeleteButton = (Button) v.findViewById(R.id.trip_delete);
-        //tDeleteButton.setOnClickListener(new View.OnClickListener()
-        //{
-        //    @Override
-        //    public void onClick(View v)
-        //    {
-        //        TripLab.get(getContext()).deleteTrip(tTrip);
-        //        finish();
-        //    }
-        //});
+        //SAVE BUTTON
+        tSaveButton = (Button) v.findViewById(R.id.trip_save);
+        tSaveButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().finish();
+            }
+        });
 
         return v;
     }
 
+    //Updates the date button to display the selected date
     private void updateDate()
     {
         tDateButton.setText(tTrip.gettDate().toString());
     }
 
-    private String getTripShare()
-    {
-        String finishedString = null;
-        if (tTrip.istFinish())
-        {
-            finishedString = getString(R.string.trip_share_complete);
-        }
-        else
-        {
-            finishedString = getString(R.string.trip_share_uncomplete);
-        }
-
-        String dateFormat = "EEE, MMM dd";
-        String dateString = DateFormat.format(dateFormat, tTrip.gettDate()).toString();
-
-        String pic = tTrip.gettPic();
-        if (pic == null)
-        {
-            pic = getString(R.string.trip_share_no_pic);
-        }
-        else
-        {
-            pic = getString(R.string.trip_share_pic, pic);
-        }
-
-        String share = getString(R.string.trip_share, tTrip.gettTitle(), dateString, finishedString, pic);
-
-        return share;
-    }
-
+    //Shows selected picture
     private void updatePhotoView()
     {
         if (tPhotoFile == null || !tPhotoFile.exists())
@@ -259,6 +337,7 @@ public class TripFragment extends Fragment
         }
     }
 
+    //Checks to see what needs to be updated
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -273,43 +352,14 @@ public class TripFragment extends Fragment
             tTrip.settDate(date);
             updateDate();
         }
-
-        //This finds the contact, THIS DOES NOT HAVE TO BE HERE
-        else if (requestCode == REQUEST_CONTACT && data != null)
-        {
-            Uri contactUri = data.getData();
-
-            //Specify which fields you want your query to return values for
-            String[] queryFields = new String[]
-            {
-                    ContactsContract.Contacts.DISPLAY_NAME
-            };
-
-            //Perform the query, the contactUri locates the data
-            Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null, null, null);
-
-            try
-            {
-                //Verifies the results
-                if (c.getCount() == 0)
-                {
-                    return;
-                }
-
-                //Finds the first column of where it is to find the name
-                c.moveToFirst();
-                String pic = c.getString(0);
-                tTrip.settPic(pic);
-                tPicButton.setText(pic);
-            }
-            finally
-            {
-                c.close();
-            }
-        }
         else if (requestCode == REQUEST_PHOTO)
         {
             updatePhotoView();
         }
+    }
+
+    //Gets context for some reason? Wouldn't let me use context otherwise
+    public Context getContext() {
+        return context;
     }
 }

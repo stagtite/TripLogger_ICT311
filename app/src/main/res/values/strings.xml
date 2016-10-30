@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Trip Logger</string>
+
+    //Trip
     <string name="trip_title_hint">Enter a title for the trip</string>
     <string name="trip_title_label">Title</string>
     <string name="trip_details_label">Details</string>
@@ -20,33 +22,36 @@
     <string name="trip_share_subject">TripLogger Trip Report</string>
     <string name="share_trip">Share trip</string>
     <string name="trip_comment_hint">Enter a comment about the trip</string>
-
+    <string name="trip_delete_label">Delete</string>
+    <string name="trip_save_label">Save</string>
+    <string name="trip_duration_hint">Trip Duration</string>
+    <string name="trip_location_label">Location</string>
     <string-array name="trip_array">
         <item>Work</item>
         <item>Personal</item>
         <item>Commute</item>
     </string-array>
 
+    //Options
     <string name="opt_title_label">Options:</string>
-
     <string name="opt_name_label">Name: </string>
     <string name="opt_name_hint">Enter your name</string>
-
     <string name="opt_id_label">ID: </string>
     <string name="opt_id_hint">Enter your ID</string>
-
     <string name="opt_email_label">Email: </string>
     <string name="opt_email_hint">Enter your email</string>
-
     <string name="opt_comment_label">Comment: </string>
     <string name="opt_comment_hint">Enter a comment here</string>
-
     <string name="opt_gender_label">Gender: </string>
     <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
     </string-array>
-
     <string name="opt_fin_text">Done</string>
+
+    //Map
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="search">Find an image near you</string>
 </resources>

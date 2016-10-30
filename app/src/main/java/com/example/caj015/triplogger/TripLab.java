@@ -8,9 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
-import com.example.caj015.triplogger.database.OptCursorWrapper;
+import com.example.caj015.triplogger.database.CursorWrappers;
 import com.example.caj015.triplogger.database.TripBaseHelper;
-import com.example.caj015.triplogger.database.TripCursorWrapper;
 import com.example.caj015.triplogger.database.TripDbSchema;
 
 import java.io.File;
@@ -22,9 +21,11 @@ import java.util.UUID;
 public class TripLab
 {
     private static TripLab tTripLab;
+    private static TripLab oTripLab;
     private Context tContext;
     private SQLiteDatabase tDatabase;
 
+    //Get context for Trip
     public static TripLab get(Context context)
     {
         if(tTripLab == null)
@@ -35,12 +36,25 @@ public class TripLab
         return tTripLab;
     }
 
+    //Get context for Options
+    public static TripLab getO(Context context)
+    {
+        if(oTripLab == null)
+        {
+            oTripLab = new TripLab (context);
+        }
+
+        return oTripLab;
+    }
+
+    //Trip Lab reference - Both Trip and Options
     private TripLab(Context context)
     {
         tContext = context.getApplicationContext();
         tDatabase = new TripBaseHelper(tContext).getWritableDatabase();
     }
 
+    //Add Trip
     public void addTrip(Trip t)
     {
         ContentValues values = getContentValues(t);
@@ -48,6 +62,15 @@ public class TripLab
         tDatabase.insert(TripDbSchema.TripTable.NAME, null, values);
     }
 
+    //Add Options
+    public void addOpt(Opt o)
+    {
+        ContentValues values = getContentValues(o);
+
+        tDatabase.insert(TripDbSchema.SettingsTable.NAME, null, values);
+    }
+
+    //Delete Trip
     public void deleteTrip(Trip trip)
     {
         String uuidString = trip.gettId().toString();
@@ -55,12 +78,12 @@ public class TripLab
         tDatabase.delete(TripDbSchema.TripTable.NAME, TripDbSchema.TripTable.Cols.UUID + " = ?", new String[] {uuidString});
     }
 
-
+    //Read Trip
     public List<Trip> gettTrips()
     {
         List<Trip> trips = new ArrayList<>();
 
-        TripCursorWrapper cursor = queryTrips(null, null);
+        CursorWrappers cursor = queryTrips(null, null);
 
         try
         {
@@ -79,116 +102,12 @@ public class TripLab
         return trips;
     }
 
-    public Trip gettTrip(UUID id)
-    {
-        TripCursorWrapper cursor = queryTrips(TripDbSchema.TripTable.Cols.UUID + " = ?", new String[] {id.toString()});
-
-        try
-        {
-            if (cursor.getCount() == 0)
-            {
-                return null;
-            }
-            cursor.moveToFirst();
-            return cursor.getTrip();
-        }
-        finally
-        {
-            cursor.close();
-        }
-    }
-
-    public File getPhotoFile(Trip trip)
-    {
-        File externalFilesDir = tContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
-        if(externalFilesDir == null)
-        {
-            return null;
-        }
-
-        return new File(externalFilesDir, trip.getPhotoFileName());
-    }
-
-    public void updateTrip(Trip trip)
-    {
-        String uuidString = trip.gettId().toString();
-        ContentValues values = getContentValues(trip);
-
-        tDatabase.update(TripDbSchema.TripTable.NAME, values, TripDbSchema.TripTable.Cols.UUID + " = ?", new String[] {uuidString});
-    }
-
-    private static ContentValues getContentValues(Trip trip)
-    {
-        ContentValues values = new ContentValues();
-        values.put(TripDbSchema.TripTable.Cols.UUID, trip.gettId().toString());
-        values.put(TripDbSchema.TripTable.Cols.TITLE, trip.gettTitle());//.toString());
-        values.put(TripDbSchema.TripTable.Cols.DATE, trip.gettDate().toString());
-        values.put(TripDbSchema.TripTable.Cols.TYPE, trip.gettType());
-        values.put(TripDbSchema.TripTable.Cols.DESTINATION, trip.gettDestination());
-        values.put(TripDbSchema.TripTable.Cols.DURATION, trip.gettDuration());
-        values.put(TripDbSchema.TripTable.Cols.COMMENT, trip.gettComment());
-        values.put(TripDbSchema.TripTable.Cols.LATITUDE, trip.gettLat());
-        values.put(TripDbSchema.TripTable.Cols.LONGITUDE, trip.gettLon());
-
-        return values;
-    }
-
-    private TripCursorWrapper queryTrips(String whereClause, String[] whereArgs)
-    {
-        Cursor cursor = tDatabase.query(
-                TripDbSchema.TripTable.NAME,
-                null, //Columns
-                whereClause,
-                whereArgs,
-                null, //Group by
-                null, //Having
-                null //Order by
-        );
-        return new TripCursorWrapper(cursor);
-    }
-
-    //OPTIONS SECTION - MERGED FROM OPTLAB
-    private static TripLab oOptLab;
-    private Context oContext;
-    private SQLiteDatabase oDatabase;
-
-    /*public static OptLab get(Context context)
-    {
-        if(oOptLab == null)
-        {
-            oOptLab = new OptLab(context);
-        }
-
-        return oOptLab;
-    }
-
-    private OptLab(Context context)
-    {
-        oContext = context.getApplicationContext();
-        oDatabase = new TripBaseHelper(oContext).getWritableDatabase();
-    }*/
-
-    public void addOpt(Opt o)
-    {
-        ContentValues values = getContentValues(o);
-
-        oDatabase.insert(TripDbSchema.SettingsTable.NAME, null, values);
-    }
-
-    public void deleteOpt(Opt optSet)
-    {
-        String uuidString = optSet.getoId();
-
-        oDatabase.delete(TripDbSchema.SettingsTable.NAME, TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String[] {uuidString});
-    }
-
-
-    public List<Opt> getoOptions()
+    //Read Options
+    public List<Opt> getoOpts()
     {
         List<Opt> opts = new ArrayList<>();
 
-        OptCursorWrapper cursor = queryOpts(null, null);
+        CursorWrappers cursor = queryTrips(null, null);
 
         try
         {
@@ -207,9 +126,30 @@ public class TripLab
         return opts;
     }
 
-    public Opt getoOptions(UUID id)
+    //Read Trip also(?)
+    public Trip gettTrip(UUID id)
     {
-        OptCursorWrapper cursor = queryOpts(TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String[] {id.toString()});
+        CursorWrappers cursor = queryTrips(TripDbSchema.TripTable.Cols.UUID + " = ?", new String[] {id.toString()});
+
+        try
+        {
+            if (cursor.getCount() == 0)
+            {
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getTrip();
+        }
+        finally
+        {
+            cursor.close();
+        }
+    }
+
+    //Read Options also (?)
+    public Opt getoOpt(UUID id)
+    {
+        CursorWrappers cursor = queryTrips(TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String[] {id.toString()});
 
         try
         {
@@ -222,18 +162,60 @@ public class TripLab
         }
         finally
         {
-            cursor.close();
+            cursor.close();;
         }
     }
 
-    public void updateOpt(Opt optSet)
+    //Update Trip
+    public void updateTrip(Trip trip)
     {
-        String uuidString = optSet.getoId().toString();
-        ContentValues values = getContentValues(optSet);
+        String uuidString = trip.gettId().toString();
+        ContentValues values = getContentValues(trip);
 
-        oDatabase.update(TripDbSchema.SettingsTable.NAME, values, TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String[] {uuidString});
+        tDatabase.update(TripDbSchema.TripTable.NAME, values,
+                TripDbSchema.TripTable.Cols.UUID + " = ?", new String[] {uuidString});
     }
 
+    //Update Opts
+    public void updateOpt(Opt opt)
+    {
+        String uuidString = opt.getoOpt().toString();
+        ContentValues values = getContentValues(opt);
+
+        tDatabase.update(TripDbSchema.TripTable.NAME, values, TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String [] {uuidString});
+    }
+
+    //Read photo
+    public File getPhotoFile(Trip trip)
+    {
+        File externalFilesDir = tContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if(externalFilesDir == null)
+        {
+            return null;
+        }
+
+        return new File(externalFilesDir, trip.getPhotoFileName());
+    }
+
+    //Trip values
+    private static ContentValues getContentValues(Trip trip)
+    {
+        ContentValues values = new ContentValues();
+        values.put(TripDbSchema.TripTable.Cols.UUID, trip.gettId().toString());
+        values.put(TripDbSchema.TripTable.Cols.TITLE, trip.gettTitle());
+        values.put(TripDbSchema.TripTable.Cols.DATE, trip.gettDate().toString());
+        values.put(TripDbSchema.TripTable.Cols.TYPE, trip.gettType().toString());
+        values.put(TripDbSchema.TripTable.Cols.DESTINATION, trip.gettDestination());
+        values.put(TripDbSchema.TripTable.Cols.DURATION, trip.gettDuration());
+        values.put(TripDbSchema.TripTable.Cols.COMMENT, trip.gettComment());
+        values.put(TripDbSchema.TripTable.Cols.LATITUDE, trip.gettLat());
+        values.put(TripDbSchema.TripTable.Cols.LONGITUDE, trip.gettLon());
+
+        return values;
+    }
+
+    //Options values
     private static ContentValues getContentValues(Opt optSet)
     {
         ContentValues values = new ContentValues();
@@ -247,9 +229,25 @@ public class TripLab
         return values;
     }
 
-    private OptCursorWrapper queryOpts(String whereClause, String[] whereArgs)
+    //Trip Cursor Wrapper
+    private CursorWrappers queryTrips(String whereClause, String[] whereArgs)
     {
-        Cursor cursor = oDatabase.query(
+        Cursor cursor = tDatabase.query(
+                TripDbSchema.TripTable.NAME,
+                null, //Columns
+                whereClause,
+                whereArgs,
+                null, //Group by
+                null, //Having
+                null //Order by
+        );
+        return new CursorWrappers(cursor);
+    }
+
+    //Options Cursor Wrapper
+    private CursorWrappers queryOpts(String whereClause, String[] whereArgs)
+    {
+        Cursor cursor = tDatabase.query(
                 TripDbSchema.SettingsTable.NAME,
                 null, //Columns
                 whereClause,
@@ -258,7 +256,8 @@ public class TripLab
                 null, //Having
                 null //Order by
         );
-        return new OptCursorWrapper(cursor);
+
+        return new CursorWrappers(cursor);
     }
 }
 
