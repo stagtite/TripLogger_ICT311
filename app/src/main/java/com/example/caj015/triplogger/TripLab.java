@@ -62,14 +62,6 @@ public class TripLab
         tDatabase.insert(TripDbSchema.TripTable.NAME, null, values);
     }
 
-    //Add Options
-    public void addOpt(Opt o)
-    {
-        ContentValues values = getContentValues(o);
-
-        tDatabase.insert(TripDbSchema.SettingsTable.NAME, null, values);
-    }
-
     //Delete Trip
     public void deleteTrip(Trip trip)
     {
@@ -102,30 +94,6 @@ public class TripLab
         return trips;
     }
 
-    //Read Options
-    public List<Opt> getoOpts()
-    {
-        List<Opt> opts = new ArrayList<>();
-
-        CursorWrappers cursor = queryTrips(null, null);
-
-        try
-        {
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast())
-            {
-                opts.add(cursor.getOpt());
-                cursor.moveToNext();
-            }
-        }
-        finally
-        {
-            cursor.close();
-        }
-
-        return opts;
-    }
-
     //Read Trip also(?)
     public Trip gettTrip(UUID id)
     {
@@ -147,9 +115,9 @@ public class TripLab
     }
 
     //Read Options also (?)
-    public Opt getoOpt(UUID id)
+    public Opt getoOpt(Integer id)
     {
-        CursorWrappers cursor = queryTrips(TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String[] {id.toString()});
+        CursorWrappers cursor = queryOpts(TripDbSchema.OptTable.Cols.IDENT + " = ?", new String[] {id.toString()});
 
         try
         {
@@ -179,10 +147,11 @@ public class TripLab
     //Update Opts
     public void updateOpt(Opt opt)
     {
-        String uuidString = opt.getoOpt().toString();
+        String name = opt.getoName();
         ContentValues values = getContentValues(opt);
 
-        tDatabase.update(TripDbSchema.TripTable.NAME, values, TripDbSchema.SettingsTable.Cols.UUID + " = ?", new String [] {uuidString});
+        tDatabase.update(TripDbSchema.OptTable.NAME, values,
+                TripDbSchema.OptTable.Cols.NAME + " = ?", new String [] {name});
     }
 
     //Read photo
@@ -205,7 +174,7 @@ public class TripLab
         values.put(TripDbSchema.TripTable.Cols.UUID, trip.gettId().toString());
         values.put(TripDbSchema.TripTable.Cols.TITLE, trip.gettTitle());
         values.put(TripDbSchema.TripTable.Cols.DATE, trip.gettDate());
-        values.put(TripDbSchema.TripTable.Cols.TYPE, trip.gettType().toString());
+        values.put(TripDbSchema.TripTable.Cols.TYPE, trip.gettType());
         values.put(TripDbSchema.TripTable.Cols.DESTINATION, trip.gettDestination());
         values.put(TripDbSchema.TripTable.Cols.DURATION, trip.gettDuration());
         values.put(TripDbSchema.TripTable.Cols.COMMENT, trip.gettComment());
@@ -219,12 +188,12 @@ public class TripLab
     private static ContentValues getContentValues(Opt optSet)
     {
         ContentValues values = new ContentValues();
-        values.put(TripDbSchema.SettingsTable.Cols.UUID, optSet.getoId());
-        values.put(TripDbSchema.SettingsTable.Cols.NAME, optSet.getoName());
-        values.put(TripDbSchema.SettingsTable.Cols.ID, optSet.getoId());
-        values.put(TripDbSchema.SettingsTable.Cols.GENDER, optSet.getoGender());
-        values.put(TripDbSchema.SettingsTable.Cols.EMAIL, optSet.getoEmail());
-        values.put(TripDbSchema.SettingsTable.Cols.COMMENT, optSet.getoComment());
+
+        values.put(TripDbSchema.OptTable.Cols.NAME, optSet.getoName());
+        values.put(TripDbSchema.OptTable.Cols.ID, optSet.getoId());
+        values.put(TripDbSchema.OptTable.Cols.GENDER, optSet.getoGender());
+        values.put(TripDbSchema.OptTable.Cols.EMAIL, optSet.getoEmail());
+        values.put(TripDbSchema.OptTable.Cols.COMMENT, optSet.getoComment());
 
         return values;
     }
@@ -245,10 +214,10 @@ public class TripLab
     }
 
     //Options Cursor Wrapper
-    private CursorWrappers queryOpts(String whereClause, String[] whereArgs)
+    public CursorWrappers queryOpts(String whereClause, String[] whereArgs)
     {
         Cursor cursor = tDatabase.query(
-                TripDbSchema.SettingsTable.NAME,
+                TripDbSchema.OptTable.NAME,
                 null, //Columns
                 whereClause,
                 whereArgs,

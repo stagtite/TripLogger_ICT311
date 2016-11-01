@@ -43,7 +43,7 @@ public class LocatorFragment extends SupportMapFragment
 
     public static LocatorFragment newInstance()
     {
-        return new LocatorFragment(); //MAKE OPTIONS MENU LIKE THIS
+        return new LocatorFragment();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -80,31 +80,11 @@ public class LocatorFragment extends SupportMapFragment
         });
     }
 
-    /*@Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-
-        tClient = new GoogleApiClient.Builder(getActivity())
-        .addApi(LocationServices.API)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(Bundle bundle) {
-                        getActivity().invalidateOptionsMenu();
-                    }
-
-                    @Override
-                    public void onConnectionSuspended(int i) {
-
-                    }
-                })
-        .build();
-    }*/
-
     @Override
     public void onStart()
     {
+        super.onStart();
+
         getActivity().invalidateOptionsMenu();
 
         tClient.connect();

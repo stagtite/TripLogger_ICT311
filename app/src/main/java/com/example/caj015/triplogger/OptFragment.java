@@ -1,11 +1,14 @@
 package com.example.caj015.triplogger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +18,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.UUID;
+import com.example.caj015.triplogger.database.TripBaseHelper;
+import com.example.caj015.triplogger.database.TripDbSchema;
+
+import static android.R.attr.id;
 
 public class OptFragment extends Fragment implements AdapterView.OnItemSelectedListener
 {
-    private static final String ARG_OPT_ID = "opt_id";
 
     private Opt oOpt;
+    private TripLab Lab;
 
     private EditText oNameField;
     private EditText oIdField;
@@ -32,26 +38,30 @@ public class OptFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     private Button oFinishedButton;
 
-    public static OptFragment newInstance(UUID oId)
-    {
-        return new OptFragment();
-        /*Bundle args = new Bundle();
-        args.putSerializable(ARG_OPT_ID, oId);
-
-        OptFragment fragment = new OptFragment();
-        fragment.setArguments(args);
-        return fragment;*/
-    }
-
     //onCreate Setup
-    @Override //CRASHES BECAUSE I'M TRYING TO PASS IT A UUID THAT IS BLANK, NEEDS TO BE CALLED ON NEWINSTANCE
+    @Override //How do i get it to save
     public void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
-        //UUID optId = oOpt.getoOpt(); //(UUID) getArguments().getSerializable(ARG_OPT_ID);
-        //oOpt = TripLab.get(getActivity()).getoOpt(optId);
+
+        oOpt = new Opt();
+
+
+        //oOpt.setoName(findVal("NAME"));
+
+        //Integer oIdent = (Integer) oOpt.getoIdent();
+        //oOpt = TripLab.get(getActivity()).getoOpt(oIdent);
     }
+
+    /*public String findVal(String column)
+    {
+        SQLiteDatabase oDatabase = new TripBaseHelper(this.getActivity()).getReadableDatabase();
+        int id = 1;
+
+        String result = Lab.queryOpts("TripDbSchema.OptTable.Cols." + column + " = ?", new String[] {String.valueOf(id)}).toString();
+
+        return result;
+    }*/
 
     @Override
     public void onPause()

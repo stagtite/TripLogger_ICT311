@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.caj015.triplogger.database.TripDbSchema.TripTable;
-import com.example.caj015.triplogger.database.TripDbSchema.SettingsTable;
+import com.example.caj015.triplogger.database.TripDbSchema.OptTable;
 
 public class TripBaseHelper extends SQLiteOpenHelper
 {
@@ -34,13 +34,14 @@ public class TripBaseHelper extends SQLiteOpenHelper
                 ")"
         );
 
-        db.execSQL("create table " + SettingsTable.NAME + "(" +
-                SettingsTable.Cols.UUID + " integer primary key unique, " +
-                SettingsTable.Cols.NAME + ", " +
-                SettingsTable.Cols.ID + ", " +
-                SettingsTable.Cols.GENDER + ", " +
-                SettingsTable.Cols.EMAIL + ", " +
-                SettingsTable.Cols.COMMENT +
+        db.execSQL("create table " + OptTable.NAME + "(" +
+                " _ident integer primary key, " +
+                OptTable.Cols.IDENT + ", " +
+                OptTable.Cols.NAME + ", " +
+                OptTable.Cols.ID + ", " +
+                OptTable.Cols.GENDER + ", " +
+                OptTable.Cols.EMAIL + ", " +
+                OptTable.Cols.COMMENT +
                 ")"
         );
     }

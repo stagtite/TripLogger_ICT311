@@ -146,7 +146,9 @@ public class TripFragment extends Fragment
         tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         tTypeSpinner.setAdapter(tAdapter);
-        tTypeSpinner.setSelection(tTrip.gettType());
+
+
+        //tTypeSpinner.setSelection(tTrip.gettType());
         //tTypeSpinner.setOnItemSelectedListener(tTrip.settType());
 
         //Destination of the trip
@@ -238,36 +240,6 @@ public class TripFragment extends Fragment
             }
         });
 
-        /*
-        //This lets us pick a contact
-        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-
-        //TESTS AGAINST NO-CONTACT PROTECTION
-        pickContact.addCategory(Intent.CATEGORY_HOME);
-
-        //Pic
-        tPicButton = (Button) v.findViewById(R.id.trip_pic);
-        tPicButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                startActivityForResult(pickContact, REQUEST_CONTACT);
-            }
-        });
-
-        if (tTrip.gettPic() != null)
-        {
-            tPicButton.setText(tTrip.gettPic());
-        }
-
-        //Stops no-contacts error - Disables contact button
-
-        if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null)
-        {
-            tPicButton.setEnabled(false);
-        }
-        */
-
         //PHOTO BUTTON
         PackageManager packageManager = getActivity().getPackageManager();
 
@@ -322,12 +294,6 @@ public class TripFragment extends Fragment
         return v;
     }
 
-    //Updates the date button to display the selected date
-    private void updateDate()
-    {
-        tDateField.setText(tTrip.gettDate().toString());
-    }
-
     //Shows selected picture
     private void updatePhotoView()
     {
@@ -357,7 +323,8 @@ public class TripFragment extends Fragment
     }
 
     //Gets context for some reason? Wouldn't let me use context otherwise
-    public Context getContext() {
+    public Context getContext()
+    {
         return context;
     }
 }

@@ -8,9 +8,7 @@ public class Trip
     private UUID tId;
     private String tTitle;
     private String tDate;
-    private boolean tFinish;
-    private String tPic;
-    private Integer tType;
+    private String tType;
     private String tDest;
     private String tDuration;
     private String tComment;
@@ -25,7 +23,6 @@ public class Trip
     public Trip(UUID id)
     {
         tId = id;
-        //tDate = new Date();
     }
 
     public UUID gettId()
@@ -53,32 +50,18 @@ public class Trip
         tDate = date;
     }
 
-    public boolean istFinish()
-    {
-        return tFinish;
-    }
-
-    public String gettPic()
-    {
-        return tPic;
-    }
-
-    public void settPic(String pic)
-    {
-        tPic = pic;
-    }
 
     public String getPhotoFileName()
     {
         return "IMG_" + gettId().toString() + ".jpg";
     }
 
-    public Integer gettType()
+    public String gettType()
     {
         return tType;
     }
 
-    public void settType(Integer type)
+    public void settType(String type)
     {
         tType = type;
     }

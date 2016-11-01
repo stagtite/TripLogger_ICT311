@@ -1,7 +1,5 @@
 package com.example.caj015.triplogger.database;
 
-
-
 public class TripDbSchema
 {
     public static final class TripTable
@@ -21,12 +19,12 @@ public class TripDbSchema
         }
     }
 
-    public static final class SettingsTable
+    public static final class OptTable
     {
-        public static final String NAME = "settings_t";
+        public static final String NAME = "opts";
         public static final class Cols
         {
-            public static final String UUID = "uuid";
+            public static final String IDENT = "ident";
             public static final String NAME = "name";
             public static final String ID = "id";
             public static final String GENDER = "gender";

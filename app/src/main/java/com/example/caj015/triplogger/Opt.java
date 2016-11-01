@@ -6,28 +6,21 @@ import java.util.UUID;
 //Defines setters and getters, and fills the Options with values from the database
 public class Opt
 {
-    private UUID optionId;
-    private String oName = "Cody Johnson";
-    private String oId = "1077261";
-    private String oGender = "Male";
-    private String oEmail = "example@domain.com";
-    private String oComment = "I can't believe it";
+    //VARIABLES
+    private String oName;// = "Cody Johnson";
+    private String oId;// = "1077261";
+    private String oGender;// = "Male";
+    private String oEmail;// = "example@domain.com";
+    private String oComment;// = "I can't believe it";
+    private final static Integer oIdent = 1;
 
-    public Opt()
+    //IDENT
+    public Integer getoIdent()
     {
-        this(UUID.randomUUID());
+        return oIdent;
     }
 
-    public Opt(UUID id)
-    {
-        optionId = id;
-    }
-
-    public UUID getoOpt()
-    {
-        return optionId;
-    }
-
+    //NAME
     public String getoName()
     {
         return oName;
@@ -38,6 +31,7 @@ public class Opt
         oName = name;
     }
 
+    //ID
     public String getoId()
     {
         return oId;
@@ -48,6 +42,7 @@ public class Opt
         oId = id;
     }
 
+    //GENDER
     public String getoGender()
     {
         return oGender;
@@ -58,6 +53,7 @@ public class Opt
         oGender = gender;
     }
 
+    //EMAIL
     public String getoEmail()
     {
         return oEmail;
@@ -68,6 +64,7 @@ public class Opt
         oEmail = email;
     }
 
+    //COMMENT
     public String getoComment()
     {
         return oComment;

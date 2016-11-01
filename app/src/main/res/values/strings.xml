@@ -31,6 +31,8 @@
         <item>Personal</item>
         <item>Commute</item>
     </string-array>
+    <string name="trip_date_hint">Enter the date of the trip</string>
+    <string name="trip_dest_hint">Enter destination</string>
 
     //Options
     <string name="opt_title_label">Options:</string>
